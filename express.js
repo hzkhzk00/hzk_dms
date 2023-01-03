@@ -88,5 +88,5 @@ app.post('/home/register', (req, res) => {
 
 // 监听端口启动服务
 app.listen(8001, () => {
-    console.log('服务已经启动，8001端口监听中....');
+    console.log('服务已经启动,8001端口监听中....');
 });
