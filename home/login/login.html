@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+
+<body>
+    <div id="page" class="site">
+        <div class="container">
+            <div class="login">
+                <div class="hero">
+                    <h1>SIGN UP TO<br>OPEN WORDPARK</h1>
+                    <p>If you dont hava an account, <br> you can <a href="">Register here</a>.</p>
+                </div>
+                <div class="main">
+                    <form id="login-form" method="post">
+                        <p>
+                            <input type="email" placeholder="电子邮件" id="email">
+                        </p>
+                        <p class="password">
+                            <input type="password" placeholder="密码" id="password">
+                            <a href="">重置密码</a>
+                        </p>
+                        <p>
+                            <input type="submit" class="submit" value="登录">
+                        </p>
+                    </form>
+                    <div class="options">
+                        <div class="separator">
+                            <p> 或者通过以下方式登录</p>
+                        </div>
+                        <ul>
+                            <li><a href="#"><i class="ri-qq-fill ri-2x"></i></a></li>
+                            <li><a href="#"><i class="ri-wechat-fill ri-2x"></i></a></li>
+                            <li><a href="#"><i class="ri-google-fill ri-2x"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const form = document.getElementById('login-form');
+        form.addEventListener('submit',(event)=>{
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                alert('Please enter an email and password');
+                return;
+            }
+
+            const data = { email, password };
+
+            fetch('http://localhost:8001/home/login', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('An error occurred');
+                    }
+                })
+                .then((result) => {
+                    if (result.message === '登录成功') {
+                        // 验证message，验证成功重定向页面
+                        window.location.href = '/home';
+                    } else {
+                        alert(result.message);
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                    alert('An error occurred');
+                });
+        })
+    </script>
+</body>
+
+</html>
